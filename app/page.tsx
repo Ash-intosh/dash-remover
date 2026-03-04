@@ -11,79 +11,89 @@ export default function Home() {
     let cleaned = input;
 
     if (mode === "remove") {
-      // Remove em dash and en dash completely
       cleaned = cleaned.replace(/[—–]/g, "");
     } else if (mode === "space") {
-      // Replace with space
       cleaned = cleaned.replace(/[—–]/g, " ");
     } else if (mode === "comma") {
-      // Replace with comma
-      cleaned = cleaned.replace(/[—–]/g, ",");
+      cleaned = cleaned.replace(/[—–]/g, ", ");
     }
+
+    cleaned = cleaned.replace(/\s+/g, " ").trim();
 
     setOutput(cleaned);
   };
 
   return (
-    <main className="min-h-screen p-10 bg-white text-gray-900">
-      <h1 className="text-3xl font-bold mb-6">
-        AI Dash Cleaner
-      </h1>
+    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 flex items-center justify-center p-6">
+      <div className="w-full max-w-4xl bg-white rounded-2xl shadow-2xl p-8 space-y-6">
 
-      <textarea
-        className="w-full p-4 border rounded mb-4"
-        rows={6}
-        placeholder="Paste AI generated text here..."
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-      />
+        <div className="text-center space-y-2">
+          <h1 className="text-4xl font-extrabold text-gray-900">
+            DashCleaner
+          </h1>
+          <p className="text-gray-500">
+            Instantly remove em dashes (—) and en dashes (–) from AI-generated text.
+          </p>
+        </div>
 
-      <div className="mb-4">
-        <label className="mr-4">
-          <input
-            type="radio"
-            value="remove"
-            checked={mode === "remove"}
-            onChange={(e) => setMode(e.target.value)}
-          />
-          Remove
-        </label>
+        <textarea
+          rows={6}
+          placeholder="Paste AI-generated text here..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          className="w-full p-4 border border-gray-300 rounded-xl text-gray-900 font-medium focus:outline-none focus:ring-2 focus:ring-black transition"
+        />
 
-        <label className="mr-4">
-          <input
-            type="radio"
-            value="space"
-            checked={mode === "space"}
-            onChange={(e) => setMode(e.target.value)}
-          />
-          Replace with Space
-        </label>
+        <div className="flex justify-center gap-6 text-sm font-medium text-gray-700">
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="radio"
+              value="remove"
+              checked={mode === "remove"}
+              onChange={(e) => setMode(e.target.value)}
+            />
+            Remove
+          </label>
 
-        <label>
-          <input
-            type="radio"
-            value="comma"
-            checked={mode === "comma"}
-            onChange={(e) => setMode(e.target.value)}
-          />
-          Replace with Comma
-        </label>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="radio"
+              value="space"
+              checked={mode === "space"}
+              onChange={(e) => setMode(e.target.value)}
+            />
+            Replace with Space
+          </label>
+
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="radio"
+              value="comma"
+              checked={mode === "comma"}
+              onChange={(e) => setMode(e.target.value)}
+            />
+            Replace with Comma
+          </label>
+        </div>
+
+        <div className="flex justify-center">
+          <button
+            onClick={cleanText}
+            className="px-8 py-3 bg-black text-white font-semibold rounded-xl hover:scale-105 hover:bg-gray-800 transition-all duration-200 shadow-md"
+          >
+            Clean Text
+          </button>
+        </div>
+
+        <textarea
+          rows={6}
+          placeholder="Cleaned output will appear here..."
+          value={output}
+          readOnly
+          className="w-full p-4 border border-gray-200 rounded-xl text-gray-800 bg-gray-50 font-medium"
+        />
+
       </div>
-
-      <button
-        onClick={cleanText}
-        className="px-6 py-2 bg-black text-white rounded"
-      >
-        Clean Text
-      </button>
-
-      <textarea
-        className="w-full p-4 border border-gray-300 rounded-lg mb-4 text-gray-900 font-semibold focus:outline-none focus:ring-2 focus:ring-black"
-        rows={6}
-        placeholder="Cleaned output..."
-        value={output}
-        readOnly
-      />
     </main>
   );
 }
